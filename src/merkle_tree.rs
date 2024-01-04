@@ -1,6 +1,8 @@
 use ark_ff::PrimeField;
+use ark_serialize::{CanonicalDeserialize, CanonicalSerialize};
 use poseidon::{Poseidon, PoseidonConstants};
 use rayon::{iter::ParallelIterator, slice::ParallelSlice};
+use wasm_bindgen::prelude::wasm_bindgen;
 
 pub use ark_ff;
 pub use ark_secp256k1;
@@ -15,6 +17,13 @@ pub struct MerkleTree<F: PrimeField, const WIDTH: usize> {
     layers: Vec<Vec<F>>,
     depth: Option<usize>,
     pub root: Option<F>,
+}
+
+#[derive(CanonicalSerialize, CanonicalDeserialize)]
+pub struct MerkleProofBytes {
+    pub siblings: Vec<u8>,
+    pub path_indices: Vec<u8>,
+    pub root: Vec<u8>,
 }
 
 #[derive(Debug)]
@@ -173,7 +182,7 @@ impl<F: PrimeField, const WIDTH: usize> MerkleTree<F, WIDTH> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use ark_std::{start_timer, end_timer};
+    use ark_std::{end_timer, start_timer};
     use poseidon::constants::secp256k1_w3;
 
     type F = ark_secp256k1::Fq;

@@ -1,0 +1,12 @@
+{
+  "name": "merkle-tree-wasm",
+  "version": "1.0.0",
+  "description": "Save Merkle proofs in JSON",
+  "main": "index.js",
+  "scripts": {
+    "compile-rust": "sh ./scripts/compile-web.sh"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
